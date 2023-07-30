@@ -7,7 +7,7 @@ const useContract = () => {
   const { active, chainId, library } = useWeb3React();
 
   const contract = useMemo(() => {
-    if (active) if (active) return new library.eth.Contract(Animalbum.abi, Animalbum.address);
+    if (active) return new library.eth.Contract(Animalbum.abi, process.env.NEXT_PUBLIC_CONTRACT_ADDRESS);
   }, [active, chainId, library?.eth?.Contract]);
 
   return contract;

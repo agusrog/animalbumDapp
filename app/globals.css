@@ -13,3 +13,11 @@
   min-height: 80vh;
   margin-top: 1rem;
 }
+
+.accessBox {
+  width: 180px;
+  height: 95px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}

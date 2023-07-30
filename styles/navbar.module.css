@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    min-height: 5vh;
+    min-height: 8vh;
     padding: 1rem;
     background-image: var(--customBackground);
 }

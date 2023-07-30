@@ -1,5 +1,4 @@
 const Animalbum = {
-  address: '0xE2D7B258C3245f8F5F86a074De8E83C2db56C50e',
   abi: [
     {
       "inputs": [],

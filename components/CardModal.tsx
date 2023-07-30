@@ -38,7 +38,7 @@ export function CardModal(props: ICardModalProps) {
             </ModalBody>
 
             <ModalFooter>
-              <Input variant='filled' placeholder='Cuenta de destino: 0x0987... ' onChange={(event) => handleInputChange(event)} />
+              <Input variant='filled' placeholder='Cuenta de destino: 0x0987... ' onChange={(event: any) => handleInputChange(event)} />
               <CustomButton
                 eventClick={() => handleTransfer(input)}
                 customClass={null}

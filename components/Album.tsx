@@ -9,7 +9,7 @@ import { IToken } from "@/models/IToken";
 
 export default function Album() {
 
-    const { tokens, claim, sendToken, isLoading, isAlbumCompleted } = useAnimalbum();
+    const { tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken } = useAnimalbum();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ tokenSelected, setTokenSelected ] = useState<IToken>();
 
@@ -22,6 +22,25 @@ export default function Album() {
         if (value.length > 0 && tokenSelected) {
             sendToken(value, tokenSelected.id);
             onClose();
+        }
+    }
+
+    const bonus = () => {
+        if (bonusToken && bonusToken.totalSupply > 0) {
+            setTokenSelected(bonusToken);
+            onOpen();
+        } else {
+            claimBonus();
+        }
+    }
+
+    const setButtonText = (): string => {
+        if (!isAlbumCompleted) {
+            return 'Reclamar'
+        } else if (bonusToken && bonusToken.totalSupply > 0) {
+            return 'Ver bonus';
+        } else {
+            return 'Reclamar bonus';
         }
     }
 
@@ -57,10 +76,10 @@ export default function Album() {
                 isLoading
                     ? <Loading />
                     : <CustomButton
-                        eventClick={!isAlbumCompleted ? claim : () => {}}
+                        eventClick={!isAlbumCompleted ? claim : bonus}
                         customClass={styles.claimButton}
                         variant="solid"
-                        text={!isAlbumCompleted ? 'Reclamar' : 'Bonus'}
+                        text={setButtonText()}
                         colorScheme="blue" />
             }
         </div>
