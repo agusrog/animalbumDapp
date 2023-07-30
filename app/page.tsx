@@ -1,41 +1,33 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import useAnimalbum from "@/hooks/useAnimalbum";
-import { IWeb3Context, useWeb3Context } from "@/context/Web3ContextProvider";
-
-const CHAIN_IDS_ALLOWED = {
-  local: 5777,
-  goerli: 5
-}
+import Album from "@/components/Album";
+import CustomButton from "@/components/CustomButton";
+import useWeb3Connector from "@/hooks/useWeb3Connector";
+import { useWeb3React } from "@web3-react/core";
 
 export default function Home() {
 
-  const {
-    connectWallet,
-    disconnect,
-    state: { isAuthenticated, address, currentChain, balance },
-  } = useWeb3Context() as IWeb3Context;
-
-  const { uris, claim } = useAnimalbum();
+  const { active, error } = useWeb3React();
+  const { connect } = useWeb3Connector();
 
   return (
     <>
-      {!isAuthenticated
-        ?
-        <button onClick={connectWallet}>Connect wallet</button>
-        :
+      {!error ?
         <>
-          {currentChain === CHAIN_IDS_ALLOWED.local || currentChain === CHAIN_IDS_ALLOWED.goerli
-            ?
-            <>
-              {address} - {balance} - {uris}
-              <button onClick={disconnect}>Disconnect</button>
-              <button onClick={claim}>reclamar</button>
-            </>
-            : <div>Network not allowed</div>
+          {active
+            ? <div className="customContainer">
+                <Album />
+              </div>
+            : <div className="customContainer">
+                <CustomButton 
+                    eventClick={connect}
+                    customClass=""
+                    variant="solid"
+                    text="Conectar"
+                    colorScheme="blue"/>
+              </div>
           }
         </>
+        : <div className="customContainer"><h4>Red no habilitada - Seleccionar Sepolia Testnet</h4></div>
       }
     </>
   );

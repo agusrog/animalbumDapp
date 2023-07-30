@@ -1,0 +1,44 @@
+.customContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cardContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 0.25rem;
+}
+
+.card, .cardImage {
+    width: 350px;
+    height: 350px;
+}
+
+.card {
+    margin: 1rem;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--gray);
+}
+
+.cardImage {
+    cursor: pointer;
+}
+
+.name {
+    position: absolute;
+}
+
+.totalSupply{
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+}
+
+.claimButton {
+    width: 350px;
+}

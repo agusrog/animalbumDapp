@@ -9,16 +9,24 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/next-js": "^2.1.5",
+    "@chakra-ui/react": "^2.8.0",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@ethersproject/providers": "^5.7.2",
     "@types/node": "20.4.1",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
+    "@web3-react/core": "^6.1.9",
+    "@web3-react/injected-connector": "^6.0.7",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.9",
-    "ethers": "^6.6.2",
-    "next": "13.4.9",
+    "framer-motion": "^10.15.0",
+    "next": "^13.4.10",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "typescript": "5.1.6"
+    "typescript": "5.1.6",
+    "web3": "^4.0.3"
   },
   "optionalDependencies": {
     "utf-8-validate": "^5.0.10"
