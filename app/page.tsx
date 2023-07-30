@@ -37,7 +37,7 @@ export default function Home() {
           ) : (
             <div className="customContainer">
               <div className="accessBox">
-                { localStorage && localStorage.getItem('connectionCode') !== process.env.NEXT_PUBLIC_PASS && 
+                { window.localStorage && window.localStorage.getItem('connectionCode') !== process.env.NEXT_PUBLIC_PASS && 
                   <Input
                     isInvalid={!validInput}
                     type="number"
