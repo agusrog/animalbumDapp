@@ -11,7 +11,8 @@
     margin-bottom: 0.25rem;
 }
 
-.card, .cardImage {
+.card,
+.cardImage {
     width: 350px;
     height: 350px;
 }
@@ -22,18 +23,36 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
     background-color: var(--gray);
+    background: rgba(217, 217, 217, 0.58);
+    box-shadow: 3px 3px 12px rgba(28, 28, 28, 0.22);
+    backdrop-filter: blur(6px);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.5s;
+    user-select: none;
+    font-weight: bolder;
+    color: #7281b8;
 }
 
-.cardImage {
-    cursor: pointer;
+.card:hover {
+    transform: scale(1.05);
+}
+
+.card:active {
+    transform: scale(0.95) rotateZ(1.5deg);
+}
+
+.cardEmpty {
+    cursor: default;
 }
 
 .name {
     position: absolute;
 }
 
-.totalSupply{
+.totalSupply {
     position: absolute;
     bottom: 4px;
     right: 4px;

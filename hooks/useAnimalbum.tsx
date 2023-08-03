@@ -1,21 +1,21 @@
-import { useEffect, useState } from "react";
-import useContract from "./useContract";
-import { useWeb3React } from "@web3-react/core";
-import { IToken, IUri } from "@/models/IToken";
-import { IAnimalbum } from "@/models/IHooks";
-import useCustomToast from "./useCustomToast";
+import { useEffect, useState } from 'react';
+import useContract from './useContract';
+import { useWeb3React } from '@web3-react/core';
+import { IToken, IUri } from '@/models/IToken';
+import { IAnimalbum } from '@/models/IHooks';
+import useCustomToast from './useCustomToast';
 
 const useAnimalbum = (): IAnimalbum => {
 
   const totalTokenId = 10;
-  const { account, library } = useWeb3React();
   const contract = useContract();
+  const { account, library } = useWeb3React();
+  const { successToast, completeToast, errorToast } = useCustomToast();
   const [ balance, setBalance ] = useState(0);
   const [ tokens, setTokens ] = useState<IToken[]>([]);
   const [ bonusToken, setBonusToken ] = useState<IToken>();
-  const [ isLoading, setIsLoading ] = useState<boolean>(true);
-  const [ isAlbumCompleted, setIsAlbumCompleted ] = useState<boolean>(false);
-  const { successToast, completeToast, errorToast } = useCustomToast();
+  const [ isLoading, setIsLoading ] = useState(true);
+  const [ isAlbumCompleted, setIsAlbumCompleted ] = useState(false);
 
   const getBalance = async (): Promise<void> => {
     if (!library) return;
@@ -82,15 +82,15 @@ const useAnimalbum = (): IAnimalbum => {
       contract.methods.claim().send({
         from: account,
       })
-        .on("transactionHash", (txHash: any) => {
+        .on('transactionHash', (txHash: any) => {
           successToast();
           getBalance();
         })
-        .on("receipt", (ok: any) => {
+        .on('receipt', (ok: any) => {
           completeToast();
           getTokens();
         })
-        .on("error", (error: any) => {
+        .on('error', (error: any) => {
           errorToast();
         });
 
@@ -106,15 +106,15 @@ const useAnimalbum = (): IAnimalbum => {
       contract.methods.claimBonusToken().send({
         from: account,
       })
-        .on("transactionHash", (txHash: any) => {
+        .on('transactionHash', (txHash: any) => {
           successToast();
           getBalance();
         })
-        .on("receipt", (ok: any) => {
+        .on('receipt', (ok: any) => {
           completeToast();
           getTokens();
         })
-        .on("error", (error: any) => {
+        .on('error', (error: any) => {
           errorToast();
         });
 
@@ -127,18 +127,18 @@ const useAnimalbum = (): IAnimalbum => {
     if (!contract) return;
 
     try {
-      contract.methods.safeTransferFrom(account, to, tokenId, 1, "0x").send({
+      contract.methods.safeTransferFrom(account, to, tokenId, 1, '0x').send({
         from: account,
       })
-        .on("transactionHash", (txHash: any) => {
+        .on('transactionHash', (txHash: any) => {
           successToast();
           getBalance();
         })
-        .on("receipt", (ok: any) => {
+        .on('receipt', (ok: any) => {
           completeToast();
           getTokens();
         })
-        .on("error", (error: any) => {
+        .on('error', (error: any) => {
           errorToast();
         });
 

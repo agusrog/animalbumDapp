@@ -1,11 +1,11 @@
-import useAnimalbum from "@/hooks/useAnimalbum";
-import styles from "@/styles/album.module.css";
-import Loading from "./Loading";
-import { useState } from "react";
-import CustomButton from "./CustomButton";
-import { Badge, useDisclosure } from "@chakra-ui/react";
-import { CardModal } from "./CardModal";
-import { IToken } from "@/models/IToken";
+import useAnimalbum from '@/hooks/useAnimalbum';
+import styles from '@/styles/album.module.css';
+import Loading from './Loading';
+import { useState } from 'react';
+import CustomButton from './CustomButton';
+import { Badge, useDisclosure } from '@chakra-ui/react';
+import { CardModal } from './CardModal';
+import { IToken } from '@/models/IToken';
 
 export default function Album() {
 
@@ -13,19 +13,19 @@ export default function Album() {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [ tokenSelected, setTokenSelected ] = useState<IToken>();
 
-    const selectToken = (_token: IToken) => {
+    const selectToken = (_token: IToken): void => {
         setTokenSelected(_token);
         onOpen();
     }
 
-    const transfer = (value: string) => {
+    const transfer = (value: string): void => {
         if (value.length > 0 && tokenSelected) {
             sendToken(value, tokenSelected.id);
             onClose();
         }
     }
 
-    const bonus = () => {
+    const bonus = (): void => {
         if (bonusToken && bonusToken.totalSupply > 0) {
             setTokenSelected(bonusToken);
             onOpen();
@@ -50,10 +50,10 @@ export default function Album() {
                 {
                     tokens.map(item => {
                         return (
-                            <div key={item.id} className={styles.card} onClick={() => selectToken(item)}>
+                            <div key={item.id} className={`${styles.card} ${!item.uri.image && styles.cardEmpty}`} onClick={() => selectToken(item)}>
                                 {item.uri.image
                                     ? <>
-                                        <img className={styles.cardImage} src={item.uri.image} />
+                                        <img className={styles.cardImage} src={item.uri.image} alt={item.uri.name} />
                                         <div className={styles.totalSupply}>
                                             <Badge fontSize='md' colorScheme='purple' >{item.totalSupply}</Badge>
                                         </div>

@@ -1,4 +1,4 @@
-import { IToken } from "./IToken";
+import { IToken } from './IToken';
 
 export interface ICardModalProps {
     token: IToken | undefined,

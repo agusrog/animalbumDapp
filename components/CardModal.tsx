@@ -9,7 +9,7 @@ import {
   Input
 } from '@chakra-ui/react';
 import CustomButton from './CustomButton';
-import styles from "@/styles/cardModal.module.css";
+import styles from '@/styles/cardModal.module.css';
 import { useState } from 'react';
 import { ICardModalProps } from '@/models/ICardModalProps';
 
@@ -17,9 +17,9 @@ export function CardModal(props: ICardModalProps) {
 
   const [ input, setInput ] = useState('');
 
-  const handleInputChange = (e: any) => setInput(e.target.value);
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>): void => setInput(e.target.value);
   
-  const handleTransfer = (input: string) => {
+  const handleTransfer = (input: string): void => {
     setInput('');
     props.transfer(input);
   };
@@ -33,12 +33,12 @@ export function CardModal(props: ICardModalProps) {
             <ModalHeader>{props.token?.uri.name}</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <img src={props.token.uri.image} />
+              <img src={props.token.uri.image} alt={props.token.uri.name} />
               <div className={styles.description}><p>{props.token.uri.description}</p></div>
             </ModalBody>
 
             <ModalFooter>
-              <Input variant='filled' placeholder='Cuenta de destino: 0x0987... ' onChange={(event: any) => handleInputChange(event)} />
+              <Input variant="filled" placeholder="Cuenta de destino: 0x0987... " onChange={(event: React.ChangeEvent<HTMLInputElement>) => handleInputChange(event)} />
               <CustomButton
                 eventClick={() => handleTransfer(input)}
                 customClass={null}

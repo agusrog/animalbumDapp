@@ -1,6 +1,6 @@
-import { ICustomButton } from "@/models/ICustomButton";
-import { Button } from "@chakra-ui/react";
-import styles from "@/styles/customButton.module.css";
+import { ICustomButton } from '@/models/ICustomButton';
+import { Button } from '@chakra-ui/react';
+import styles from '@/styles/customButton.module.css';
 
 export default function CustomButton(props: ICustomButton) {
   return (

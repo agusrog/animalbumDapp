@@ -1,6 +1,6 @@
-import { connector } from "@/config/web3";
-import { useWeb3React } from "@web3-react/core";
-import { useEffect } from "react";
+import { connector } from '@/config/web3';
+import { useWeb3React } from '@web3-react/core';
+import { useEffect } from 'react';
 
 declare global {
   interface Window{
