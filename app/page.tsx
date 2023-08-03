@@ -3,19 +3,20 @@ import Album from "@/components/Album";
 import CustomButton from "@/components/CustomButton";
 import useWeb3Connector from "@/hooks/useWeb3Connector";
 import { useWeb3React } from "@web3-react/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@chakra-ui/react";
 
 export default function Home() {
   const { active, error } = useWeb3React();
   const { connect } = useWeb3Connector();
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [validInput, setValidInput] = useState(true);
+  const [code, setCode] = useState('');
 
   const handleInputChange = (e: any) => setInput(e.target.value);
 
   const handleAccess = (value: string) => {
-    if (localStorage.getItem('connectionCode') === process.env.NEXT_PUBLIC_PASS) {
+    if (code === process.env.NEXT_PUBLIC_PASS) {
       connect();
     } else if (value === process.env.NEXT_PUBLIC_PASS) {
       localStorage.setItem('connectionCode', process.env.NEXT_PUBLIC_PASS);
@@ -25,6 +26,13 @@ export default function Home() {
       setValidInput(false);
     }
   };
+
+  useEffect(() => {
+    const connectionCode = JSON.parse(localStorage.getItem('connectionCode') as string);
+    if (connectionCode) {
+      setCode(String(connectionCode));
+    }
+  },[]);
 
   return (
     <>
@@ -37,7 +45,7 @@ export default function Home() {
           ) : (
             <div className="customContainer">
               <div className="accessBox">
-                { window.localStorage && window.localStorage.getItem('connectionCode') !== process.env.NEXT_PUBLIC_PASS && 
+                { validInput || code !== process.env.NEXT_PUBLIC_PASS && 
                   <Input
                     isInvalid={!validInput}
                     type="number"

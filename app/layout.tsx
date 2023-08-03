@@ -9,7 +9,7 @@ import Navbar from '@/components/Navbar';
 
 const inter = Inter({ subsets: ['latin'] })
 
-const metadata: Metadata = {
+export const metadata: Metadata = {
   title: 'Animalbum Dapp',
   description: 'Animal blockchain cards',
 }
