@@ -9,19 +9,12 @@ const useAnimalbum = (): IAnimalbum => {
 
   const totalTokenId = 10;
   const contract = useContract();
-  const { account, library } = useWeb3React();
+  const { account } = useWeb3React();
   const { successToast, completeToast, errorToast } = useCustomToast();
-  const [ balance, setBalance ] = useState(0);
   const [ tokens, setTokens ] = useState<IToken[]>([]);
   const [ bonusToken, setBonusToken ] = useState<IToken>();
   const [ isLoading, setIsLoading ] = useState(true);
   const [ isAlbumCompleted, setIsAlbumCompleted ] = useState(false);
-
-  const getBalance = async (): Promise<void> => {
-    if (!library) return;
-    const toSet = await library.eth.getBalance(account);
-    setBalance(Number((toSet)) / 1e18);
-  };
 
   const getTokens = async (): Promise<void> => {
     if (!contract) return;
@@ -76,7 +69,6 @@ const useAnimalbum = (): IAnimalbum => {
   }
 
   const claim = async (): Promise<void> => {
-    if (!contract) return;
 
     try {
       contract.methods.claim().send({
@@ -84,7 +76,6 @@ const useAnimalbum = (): IAnimalbum => {
       })
         .on('transactionHash', (txHash: any) => {
           successToast();
-          getBalance();
         })
         .on('receipt', (ok: any) => {
           completeToast();
@@ -100,7 +91,6 @@ const useAnimalbum = (): IAnimalbum => {
   };
 
   const claimBonus = async (): Promise<void> => {
-    if (!contract) return;
 
     try {
       contract.methods.claimBonusToken().send({
@@ -108,7 +98,6 @@ const useAnimalbum = (): IAnimalbum => {
       })
         .on('transactionHash', (txHash: any) => {
           successToast();
-          getBalance();
         })
         .on('receipt', (ok: any) => {
           completeToast();
@@ -124,7 +113,6 @@ const useAnimalbum = (): IAnimalbum => {
   };
 
   const sendToken = async (to: string, tokenId: number): Promise<void> => {
-    if (!contract) return;
 
     try {
       contract.methods.safeTransferFrom(account, to, tokenId, 1, '0x').send({
@@ -132,7 +120,6 @@ const useAnimalbum = (): IAnimalbum => {
       })
         .on('transactionHash', (txHash: any) => {
           successToast();
-          getBalance();
         })
         .on('receipt', (ok: any) => {
           completeToast();
@@ -151,11 +138,7 @@ const useAnimalbum = (): IAnimalbum => {
     getTokens();
   }, [contract, account]);
 
-  useEffect(() => {
-    getBalance();
-  }, [library, account]);
-
-  return { balance, tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken };
+  return { tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken };
 };
 
 export default useAnimalbum;

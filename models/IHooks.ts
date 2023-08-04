@@ -1,7 +1,6 @@
 import { IToken } from './IToken';
 
 export interface IAnimalbum {
-    balance: number;
     tokens: IToken[];
     bonusToken: IToken | undefined;
     claim: () => Promise<void>;
@@ -9,6 +8,12 @@ export interface IAnimalbum {
     sendToken: (to: string, tokenId: number) => Promise<void>;
     isLoading: boolean;
     isAlbumCompleted: boolean;
+}
+
+export interface IWeb3Connector {
+    connect: () => void;
+    disconnect: () => void;
+    balance: number;
 }
 
 export interface ICustomToast {
