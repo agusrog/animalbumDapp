@@ -25,23 +25,20 @@ const useAnimalbum = (): IAnimalbum => {
       let _isAlbumCompleted = true;
       setTokens(_tokens);
 
-      for (let index = 1; index <= totalTokenId; index++) {        
-
-        const [ tokenSupply, tokenUri ] = await tokensRequest(index);
-
+      const tokensReponse = await tokensRequest();
+      tokensReponse.forEach(([ tokenSupply, tokenUri ]) => {
         if (Number(tokenSupply) === 0) {
           tokenUri.image = tokenUri.description = undefined;
           _isAlbumCompleted = false;
           setIsAlbumCompleted(false);
         }
-
-        const newToken = { id: index, totalSupply: Number(tokenSupply), uri: tokenUri } as IToken;
+        const newToken = { id: tokenUri.id, totalSupply: Number(tokenSupply), uri: tokenUri } as IToken;
         _tokens = [..._tokens, newToken];
-      }
+      });      
 
       if (_isAlbumCompleted) {
-        const [ tokenSupply, tokenUri ] = await tokensRequest(11);
-        const _bonusToken = { id: 11, totalSupply: Number(tokenSupply), uri: tokenUri }
+        const [ tokenSupply, tokenUri ] = await bonusRequest();
+        const _bonusToken = { id: tokenUri.id, totalSupply: Number(tokenSupply), uri: tokenUri }
         setIsAlbumCompleted(true);
         setBonusToken(_bonusToken);
       }
@@ -61,11 +58,23 @@ const useAnimalbum = (): IAnimalbum => {
     return uriData;
   }
 
-  const tokensRequest = (tokenId: number): Promise<[number[], IUri]> => {
+  const tokensRequest = (): Promise<[number[], IUri][]> => {
+    const requests: Promise<[any, IUri]>[] = [];
+    for (let index = 1; index <= totalTokenId; index++) {
+      requests.push(Promise.all([
+      contract.methods.balanceOf(account, index).call(),
+      getUri(index)
+    ]));
+    }
+    return Promise.all(requests);
+    
+  }
+  
+  const bonusRequest = (): Promise<[number[], IUri]> => {
     return Promise.all([
-      contract.methods.balanceOf(account, tokenId).call(),
-      getUri(tokenId)
-    ]);
+      contract.methods.balanceOf(account, 11).call(),
+      getUri(11)
+    ])
   }
 
   const claim = async (): Promise<void> => {
