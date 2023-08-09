@@ -143,19 +143,6 @@ const Animalbum = {
       "type": "event"
     },
     {
-      "inputs": [],
-      "name": "albumCompleted",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
       "inputs": [
         {
           "internalType": "address",
@@ -236,6 +223,25 @@ const Animalbum = {
           "internalType": "bool",
           "name": "",
           "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "meta",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
         }
       ],
       "stateMutability": "view",
@@ -381,7 +387,7 @@ const Animalbum = {
       "inputs": [
         {
           "internalType": "uint256",
-          "name": "_tokenid",
+          "name": "",
           "type": "uint256"
         }
       ],
@@ -393,7 +399,7 @@ const Animalbum = {
           "type": "string"
         }
       ],
-      "stateMutability": "pure",
+      "stateMutability": "view",
       "type": "function"
     }
   ]};
