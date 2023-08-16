@@ -52,7 +52,7 @@ const useAnimalbum = (): IAnimalbum => {
   };
 
   const getUri = async (index: number): Promise<IUri> => {
-    const tokenUri = await contract.methods.meta(index).call();
+    const tokenUri = await contract.methods.uri(index).call();
     const uriResult = await fetch(tokenUri);
     const uriData = await uriResult.json();
     return uriData;
@@ -144,7 +144,7 @@ const useAnimalbum = (): IAnimalbum => {
   };
 
   useEffect(() => {
-    getTokens();
+    getTokens();    
   }, [contract, account]);
 
   return { tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken };

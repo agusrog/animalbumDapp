@@ -1,7 +1,7 @@
 import useAnimalbum from '@/hooks/useAnimalbum';
 import styles from '@/styles/album.module.css';
 import Loading from './Loading';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import CustomButton from './CustomButton';
 import { Badge, useDisclosure } from '@chakra-ui/react';
 import { CardModal } from './CardModal';
@@ -11,7 +11,11 @@ export default function Album() {
 
     const { tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken } = useAnimalbum();
     const { isOpen, onOpen, onClose } = useDisclosure();
-    const [ tokenSelected, setTokenSelected ] = useState<IToken>();
+    const [tokenSelected, setTokenSelected] = useState<IToken>();
+    const [tokensMemo, setTokensMemo] = useState<IToken[]>([]);
+    const [newToken, setNewToken] = useState(0);
+    const [isFirstLoading, setIsFirstLoading] = useState(true);
+
 
     const selectToken = (_token: IToken): void => {
         setTokenSelected(_token);
@@ -44,13 +48,30 @@ export default function Album() {
         }
     }
 
+    useEffect(() => {
+        if (tokens.length > 0) {
+            if (isFirstLoading) {
+                setTokensMemo(tokens);
+                setIsFirstLoading(false);
+            } else {
+                tokens.forEach((token, index) => {
+                    if (token.totalSupply !== tokensMemo[index]?.totalSupply) {
+                        setNewToken(token.id);
+                    }
+                });
+                setTokensMemo(tokens);
+            }
+        }
+    }, [tokens]);
+
     return (
         <div className={styles.customContainer}>
             <div className={styles.cardContainer}>
                 {
                     tokens.map(item => {
                         return (
-                            <div key={item.id} className={`${styles.card} ${!item.uri.image && styles.cardEmpty}`} onClick={() => selectToken(item)}>
+                            <div key={item.id} className={`${styles.card} ${!item.uri.image && styles.cardEmpty} ${item.id === newToken && styles.newTokenReceived} `} 
+                            onClick={() => selectToken(item)}>
                                 {item.uri.image
                                     ? <>
                                         <img className={styles.cardImage} src={item.uri.image} alt={item.uri.name} />

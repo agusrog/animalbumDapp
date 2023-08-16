@@ -48,6 +48,10 @@
     cursor: default;
 }
 
+.newTokenReceived {
+    animation: animation-new-token 1s;
+}
+
 .name {
     position: absolute;
 }
@@ -60,4 +64,19 @@
 
 .claimButton {
     width: 350px;
+}
+
+@keyframes animation-new-token {
+  0% {
+    opacity: 1;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
 }

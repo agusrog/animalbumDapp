@@ -67,7 +67,7 @@ export default function Home() {
         </>
       ) : (
         <div className="customContainer">
-          <h4>Red no habilitada - Seleccionar Sepolia Testnet</h4>
+          <h4>Red no habilitada - Asegurate de abrir Metamask y seleccionar Sepolia Testnet</h4>
         </div>
       )}
     </>
