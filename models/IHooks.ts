@@ -8,6 +8,7 @@ export interface IAnimalbum {
     sendToken: (to: string, tokenId: number) => Promise<void>;
     isLoading: boolean;
     isAlbumCompleted: boolean;
+    transactionPending: boolean;
 }
 
 export interface IWeb3Connector {

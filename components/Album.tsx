@@ -6,16 +6,23 @@ import CustomButton from './CustomButton';
 import { Badge, useDisclosure } from '@chakra-ui/react';
 import { CardModal } from './CardModal';
 import { IToken } from '@/models/IToken';
+import { useWeb3React } from '@web3-react/core';
 
 export default function Album() {
 
-    const { tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken } = useAnimalbum();
+    const { tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken, transactionPending } = useAnimalbum();
+    const { account } = useWeb3React();
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [tokenSelected, setTokenSelected] = useState<IToken>();
     const [tokensMemo, setTokensMemo] = useState<IToken[]>([]);
     const [newToken, setNewToken] = useState(0);
     const [isFirstLoading, setIsFirstLoading] = useState(true);
 
+    const claimToken = () => {
+        if (!transactionPending) {
+            claim();
+        }
+    }
 
     const selectToken = (_token: IToken): void => {
         setTokenSelected(_token);
@@ -23,7 +30,7 @@ export default function Album() {
     }
 
     const transfer = (value: string): void => {
-        if (value.length > 0 && tokenSelected) {
+        if (value.length > 0 && tokenSelected && !transactionPending) {
             sendToken(value, tokenSelected.id);
             onClose();
         }
@@ -34,7 +41,9 @@ export default function Album() {
             setTokenSelected(bonusToken);
             onOpen();
         } else {
-            claimBonus();
+            if (!transactionPending) {
+                claimBonus();
+            }
         }
     }
 
@@ -64,6 +73,10 @@ export default function Album() {
         }
     }, [tokens]);
 
+    useEffect(() => {
+        onClose();
+    }, [account]);
+
     return (
         <div className={styles.customContainer}>
             <div className={styles.cardContainer}>
@@ -91,17 +104,18 @@ export default function Album() {
                     onOpen={onOpen}
                     onClose={onClose}
                     transfer={transfer}
+                    transactionPending={transactionPending}
                 />
             </div>
             {
                 isLoading
                     ? <Loading />
                     : <CustomButton
-                        eventClick={!isAlbumCompleted ? claim : bonus}
+                        eventClick={!isAlbumCompleted ? claimToken : bonus}
                         customClass={styles.claimButton}
                         variant="solid"
                         text={setButtonText()}
-                        colorScheme="blue" />
+                        colorScheme={transactionPending ? 'gray' : 'blue' } />
             }
         </div>
     );

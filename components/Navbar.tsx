@@ -22,7 +22,7 @@ export default function Navbar() {
           />
           <div className={styles.accountInfo}>
             {account} -&nbsp;
-            <Link href="https://sepoliafaucet.com/" isExternal color="purple.200">{balance?.toFixed(2)} ETH</Link>
+            <Link href="https://sepoliafaucet.com/" isExternal color="purple.200">{balance?.toFixed(4)} ETH</Link>
           </div>
         </>
       )}

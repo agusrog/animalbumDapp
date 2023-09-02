@@ -44,7 +44,7 @@ export function CardModal(props: ICardModalProps) {
                 customClass={null}
                 variant="solid"
                 text="Enviar"
-                colorScheme="blue" />
+                colorScheme={props.transactionPending ? 'gray' : 'blue' } />
             </ModalFooter>
           </ModalContent>
         </Modal>

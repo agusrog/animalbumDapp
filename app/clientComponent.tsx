@@ -4,7 +4,6 @@ import { Providers } from './providers'
 import Navbar from '@/components/Navbar'
 import { getLibrary } from '@/config/web3'
 
- 
 export default function ClientComponent({
   children,
 }: {
@@ -12,10 +11,10 @@ export default function ClientComponent({
 }) {
   return (
     <Providers>
-    <Web3ReactProvider getLibrary={getLibrary}>
-      <Navbar />
-      {children}
-    </Web3ReactProvider>
-  </Providers>
+      <Web3ReactProvider getLibrary={getLibrary}>
+        <Navbar />
+        {children}
+      </Web3ReactProvider>
+    </Providers>
   )
 }

@@ -15,6 +15,7 @@ const useAnimalbum = (): IAnimalbum => {
   const [ bonusToken, setBonusToken ] = useState<IToken>();
   const [ isLoading, setIsLoading ] = useState(true);
   const [ isAlbumCompleted, setIsAlbumCompleted ] = useState(false);
+  const [ transactionPending, setTransactionPending ] = useState(false);
 
   const getTokens = async (): Promise<void> => {
     if (!contract) return;
@@ -78,17 +79,19 @@ const useAnimalbum = (): IAnimalbum => {
   }
 
   const claim = async (): Promise<void> => {
-
+    
     try {
       contract.methods.claim().send({
         from: account,
       })
         .on('transactionHash', (txHash: any) => {
           successToast();
+          setTransactionPending(true);
         })
         .on('receipt', (ok: any) => {
           completeToast();
-          getTokens();
+          getTokens();          
+          setTransactionPending(false);
         })
         .on('error', (error: any) => {
           errorToast();
@@ -100,17 +103,19 @@ const useAnimalbum = (): IAnimalbum => {
   };
 
   const claimBonus = async (): Promise<void> => {
-
+    
     try {
       contract.methods.claimBonusToken().send({
         from: account,
       })
         .on('transactionHash', (txHash: any) => {
           successToast();
+          setTransactionPending(true);
         })
         .on('receipt', (ok: any) => {
           completeToast();
           getTokens();
+          setTransactionPending(false);
         })
         .on('error', (error: any) => {
           errorToast();
@@ -122,17 +127,19 @@ const useAnimalbum = (): IAnimalbum => {
   };
 
   const sendToken = async (to: string, tokenId: number): Promise<void> => {
-
+    
     try {
       contract.methods.safeTransferFrom(account, to, tokenId, 1, '0x').send({
         from: account,
       })
         .on('transactionHash', (txHash: any) => {
           successToast();
+          setTransactionPending(true);
         })
         .on('receipt', (ok: any) => {
           completeToast();
-          getTokens();
+          getTokens();          
+          setTransactionPending(false);
         })
         .on('error', (error: any) => {
           errorToast();
@@ -144,10 +151,11 @@ const useAnimalbum = (): IAnimalbum => {
   };
 
   useEffect(() => {
-    getTokens();    
+    getTokens();
+    setTransactionPending(false);
   }, [contract, account]);
 
-  return { tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken };
+  return { tokens, claim, sendToken, isLoading, isAlbumCompleted, claimBonus, bonusToken, transactionPending };
 };
 
 export default useAnimalbum;
