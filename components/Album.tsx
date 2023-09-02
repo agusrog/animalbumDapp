@@ -115,7 +115,7 @@ export default function Album() {
                         customClass={styles.claimButton}
                         variant="solid"
                         text={setButtonText()}
-                        colorScheme={transactionPending ? 'gray' : 'blue' } />
+                        colorScheme={transactionPending && !isAlbumCompleted ? 'gray' : 'blue' } />
             }
         </div>
     );
